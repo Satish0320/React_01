@@ -4,38 +4,55 @@ import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
+
+  const[count, setcount] = useState(0);
+  const [count2, setcount2] = useState(0);
+
+  function increase(){
+    setcount(c => c+1);
+  }
+
+  function decrease(){
+    setcount2( c => c-1);
+  }
+
   return (
    <>
-      <Counter/>
+   <Counter count = {count}  count2 = {count2}/>
+    <button onClick={increase}>Increase</button>
+    <button onClick={decrease}>decrease</button>
    </>
   )
 }
 
-function Counter(){
+function Counter (props) {
 
-    const [count, setCount] = useState(0)
-
-    console.log("SetInterval here!!!!");
+useEffect(()=>{
+  console.log("Mount");
+  
+  return ()=>{
+    console.log("unmount");
     
-    useEffect(()=>{
-      setInterval(()=>{
-        setCount(count => count+1)
-      }, 1000)
-      console.log("mounted");
-      
-    },[])
-    
+  }
+},[])
 
-    // function increase(){
-    //   setCount (count+1);
-    // }
+
+useEffect(()=>{
+  console.log("count has changed ");
+
+  
+  return ()=>{
+    console.log("count unmount");
+  }
+},[props.count2])
+
 
   return <div>
-    <h1>{count}</h1>
-    {/* <button onClick={increase}>Increase</button> */}
-  </div>
+      Counter 1: {props.count} <br />
+      Counter 2: {props.count2}
+    </div>
+  
 }
-
 
 
 export default App
